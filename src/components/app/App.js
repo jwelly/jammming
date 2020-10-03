@@ -54,6 +54,7 @@ class App extends React.Component {
     };
 
     this.addTrack = this.addTrack.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
   }
   
   addTrack(track) {
@@ -62,13 +63,20 @@ class App extends React.Component {
       return;
     } else {
       tracks.push(track);
-      this.setState({
-        playlistTracks: tracks
-      })
+
+      this.setState({ playlistTracks: tracks })
     }
     // so if the id of the track we're trying to add matches the id of a track that is already in our tracks array,
     // we simply return function without doing anything
   }
+
+  removeTrack(track) {
+    let tracks = this.state.playlistTracks;
+    tracks = tracks.filter(currentTrack => currentTrack.id !== track.id);
+
+    this.setState({ playlistTracks: tracks });
+  }
+
 
   render() { 
     return (
@@ -77,8 +85,11 @@ class App extends React.Component {
         <div className="App">
           <SearchBar />
           <div className="App-playlist">
-            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
-            <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
+            <SearchResults searchResults={this.state.searchResults}
+              onAdd={this.addTrack} />
+            <Playlist playlistName={this.state.playlistName}
+              playlistTracks={this.state.playlistTracks}
+              onRemove={this.removeTrack} />
           </div>
         </div>
       </div>
