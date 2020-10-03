@@ -5,11 +5,10 @@ class SearchBar extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        this.state = {      // this state will be updated as a user provides input into the searchbar
             term: ''
         }
-        // this state will be updated as a user provides input into the searchbar
-
+        
         this.search = this.search.bind(this);
         this.handleTermChange = this.handleTermChange.bind(this);
     }
