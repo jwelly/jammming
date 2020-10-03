@@ -24,6 +24,29 @@ const Spotify = {
             window.history.pushState('Access Token', null, '/');
             return accessToken;
         }
+    },
+
+    search(term) {
+        const accessToken = Spotify.getAccessToken();
+        return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then(response => {
+            return response.json();     // our response gets converted to JSON
+        }).then(jsonResponse => {
+            if (!jsonResponse.tracks) {
+                return [];
+            } else {
+                return jsonResponse.tracks.items.map(track => ({    // we have ({ because we are returning an object
+                    id: track.id,
+                    name: track.name,
+                    artist: track.artist[0].name,
+                    album: track.album.name,
+                    uri: track.uri
+                }))
+            }
+        })
     }
 }
 
