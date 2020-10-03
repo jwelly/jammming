@@ -4,6 +4,7 @@ import './App.css';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
+import TrackList from '../TrackList/TrackList';
 
 class App extends React.Component {
   constructor(props) {
@@ -51,8 +52,24 @@ class App extends React.Component {
         }
       ]
     };
+
+    this.addTrack = this.addTrack.bind(this);
   }
   
+  addTrack(track) {
+    let tracks = this.state.playlistTracks;
+    if (tracks.find(savedTrack => savedTrack.id === track.id)) {
+      return;
+    } else {
+      tracks.push(track);
+      this.setState({
+        playlistTracks: tracks
+      })
+    }
+    // so if the id of the track we're trying to add matches the id of a track that is already in our tracks array,
+    // we simply return function without doing anything
+  }
+
   render() { 
     return (
       <div>
@@ -60,7 +77,7 @@ class App extends React.Component {
         <div className="App">
           <SearchBar />
           <div className="App-playlist">
-            <SearchResults searchResults={this.state.searchResults} />
+            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
           </div>
         </div>
