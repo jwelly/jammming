@@ -11,7 +11,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       searchResults: [],
-      playlistName: 'My Playlist',
+      playlistName: "My Playlist",
       playlistTracks: []
     };
 
@@ -51,7 +51,7 @@ class App extends React.Component {
     Spotify.savePlaylist(this.state.playlistName, trackUris).then(() => {
       this.setState({
         playlistName: "New Playlist",   // so this is all after we've saved our playlist
-        playlistTracks: []          // we then set our new state to be a generic new playlist with empty track array
+        playlistTracks: []          // we then reset our new state to be a generic new playlist with empty track array
       });
     });
   }
