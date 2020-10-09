@@ -1,4 +1,4 @@
-const clientId = '';
+const clientId = '3334f5774a1a48fd94749c9d00762af1';
 const redirectUri = 'http://localhost:3000';
 let accessToken;
 
@@ -50,10 +50,10 @@ const Spotify = {
     },
 
     savePlaylist(name, trackUris) {
-        if (!name || trackUris) {   // if there's no name or trackUris, so if this array is empty, just return
+        if (!name || !trackUris.length) {   // if there's no name or trackUris, so if this array is empty, just return
             return;
         }
-        const accessToken = Spotify.getAccessToken;
+        const accessToken = Spotify.getAccessToken();
         const headers = { Authorization: `Bearer ${accessToken}` };
         let userId;
 
@@ -63,16 +63,16 @@ const Spotify = {
             userId = jsonResponse.id;    // ..and saved the response id param to the user's ID var.
 
             return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-                headers: headers,
+                headers: headers,         // here we create a new playlist in the user's account and return its id
                 method: 'POST',
-                body: JSON.stringify({ name: name })
-            }).then(response => response.json()
+                body: JSON.stringify({ name: name })    // we set the playlist name to the name argument entered
+            }).then(response => response.json()     // we then convert the res to json
             ).then(jsonResponse => {
                 const playlistId = jsonResponse.id;
-                return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
+                return fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {   // (more recent endpoint)
                     headers: headers,
                     method: 'POST',
-                    body: JSON.stringify({ uris: trackUris })
+                    body: JSON.stringify({ uris: trackUris })    // here we add the tracks to our new playlist!
                 })
             })
         });
