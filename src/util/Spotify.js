@@ -20,11 +20,11 @@ const Spotify = {
             window.setTimeout(() => accessToken = '', expiresIn * 1000);
             window.history.pushState('Access Token', null, '/');
             return accessToken;
-        } else {
+        } else {    // if we have no accessTokenMatch or expiresInMatch (yet), then we redirect the user below using window.location = url
             const accessUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectUri}`
-            window.location = accessUrl;
-        }
-    },
+            window.location = accessUrl; 
+        }   // if user grants access to their Spotify account, the final URL will contain a # fragment with data
+    },      // including an access_token and expires_in. The page reloads with our access token!
 
     search(term) {
         const accessToken = Spotify.getAccessToken();
