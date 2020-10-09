@@ -83,6 +83,10 @@ class App extends React.Component {
       </div>
     );
   }
-}
+
+  componentDidMount() {
+    window.addEventListener('load', () => {Spotify.getAccessToken()});
+  }       // when the page loads, the access token will be obtained immediately
+}         // so then page won't refresh and clear the first search you enter
 
 export default App;
