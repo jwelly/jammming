@@ -57,6 +57,9 @@ class App extends React.Component {
   }
   
   search(term) {
+    window.sessionStorage.searchTerm = term;
+    // sessionStorage, unlike localStorage won't display results until AFTER user logs in
+
     Spotify.search(term).then(searchResults => {
       this.setState({searchResults: searchResults})
     })
@@ -86,7 +89,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('load', () => {Spotify.getAccessToken()});
+    if (window.location.href.match(/access_token=/)) {
+      Spotify.search(window.sessionStorage.searchTerm).then(searchResults => {
+        this.setState({searchResults: searchResults});
+      })
+    }
+
+    /* window.addEventListener('load', () => {Spotify.getAccessToken()}); */
   }       // when the page loads, the access token will be obtained immediately
 }         // so then page won't refresh and clear the first search you enter
 
