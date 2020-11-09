@@ -15,7 +15,11 @@ class SearchBar extends React.Component {
     }
     
     search() {
-        this.props.onSearch(this.state.term);
+        if (!this.state.term) {
+            return false
+        } else {
+            this.props.onSearch(this.state.term);
+        }
     }
 
     searchKeydown(event) {
